@@ -1,0 +1,23 @@
+version: "3.8"
+
+services:
+  fluentd:
+    container_name: fluentd-container
+    build: .
+    image: fluentd-image
+    ports:
+      - "127.0.0.1:24224:24224"
+      - "127.0.0.1:24224:24224/udp"
+      - "127.0.0.1:5140:5140"
+    volumes:
+      - ${PWD}/etc/td-agent/td-agent.conf:/etc/td-agent/td-agent.conf
+      - ${PWD}/workdir:/root/workdir
+      - ${PWD}/var/log/td-agent:/var/log/td-agent
+      - ${PWD}/tmp/td-agent:/tmp/td-agent
+    working_dir: /root/workdir
+    tty: true
+    env_file:
+      - aws.env
+    privileged: true
+    command: /sbin/init
+    # command: bash -c "tail -F /var/log/td-agent/td-agent.log && sudo /etc/init.d/td-agent start"

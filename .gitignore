@@ -1,0 +1,6 @@
+tmp
+var/log
+aws.env
+.vscode
+.python-version
+.ruby-version
